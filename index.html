@@ -1,6 +1,8 @@
 <!DOCTYPE html><html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
   <title>SSPL 2026 Auction</title>  <style>
     body {
       margin: 0;
@@ -133,10 +135,10 @@ let selectedTeam = null;
 let teams = JSON.parse(localStorage.getItem("teams")) || [
   { name: "Shrewd Paltan", balance: 10000000, players: [], logo: "1.png" },
   { name: "Bajarang Mavericks", balance: 10000000, players: [], logo: "2.png" },
-  { name: "Perfect Lions", balance: 10000000, players: [], logo: "3.png" },
-  { name: "Smile 11", balance: 10000000, players: [], logo: "4.png" },
-  { name: "Saral Strickers", balance: 10000000, players: [], logo: "5.png" },
-  { name: "Karma King", balance: 10000000, players: [], logo: "6.png" }
+  { name: "Perfect Lions", balance: 10000000, players: [], logo: "6.png" },
+  { name: "Smile 11", balance: 10000000, players: [], logo: "5.png" },
+  { name: "Saral Strickers", balance: 10000000, players: [], logo: "3.png" },
+  { name: "Karma King", balance: 10000000, players: [], logo:"4.png"}
 ];
 
 function saveData() {
