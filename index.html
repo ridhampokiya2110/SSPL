@@ -1,0 +1,170 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SSPL 2026 Auction</title>  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #1a0000, #330000);
+      color: white;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #ff3b3b;
+      padding: 20px;
+    }
+
+    .teams {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      padding: 20px;
+    }
+
+    .team {
+      background: rgba(255,0,0,0.08);
+      border: 1px solid rgba(255,0,0,0.3);
+      padding: 15px;
+      border-radius: 15px;
+      text-align: center;
+      transition: 0.3s;
+      flex: 1;
+      min-width: 150px;
+    }
+
+    .team:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 15px red;
+    }
+
+    .team-logo {
+      width: 80px;
+      height: 80px;
+      object-fit: contain;
+      cursor: pointer;
+    }
+
+    .team-logo:hover {
+      transform: scale(1.1);
+    }
+
+    .players {
+      margin-top: 10px;
+      font-size: 13px;
+    }
+
+    .auction-box {
+      max-width: 300px;
+      margin: 20px auto;
+      background: rgba(0,0,0,0.4);
+      padding: 20px;
+      border-radius: 12px;
+    }
+
+    input, button {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border-radius: 6px;
+      border: none;
+    }
+
+    button {
+      background: red;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+  </style></head><body><div class="container"><h1>SSPL 2026 Auction</h1><div class="teams" id="teams"></div><div class="auction-box">
+  <h2>Buy Player</h2>  <input type="number" id="playerNumber" placeholder="Player Number">
+  <input type="number" id="bidAmount" placeholder="Bid Amount (min ₹100000)"><button onclick="buyPlayer()">Confirm Purchase</button>
+
+</div></div><script>
+const BASE_PRICE = 100000;
+const BID_STEP = 100000;
+
+const teams = [
+  { name: "Shrewd Paltan", balance: 10000000, players: [], logo: "1.jpeg" },
+  { name: "Bajarang Mavericks", balance: 10000000, players: [], logo: "2.jpeg" },
+  { name: "Perfect Lions", balance: 10000000, players: [], logo: "6.jpeg" },
+  { name: "Smile 11", balance: 10000000, players: [], logo: "5.jpeg" },
+  { name: "Saral Strickers", balance: 10000000, players: [], logo: "3.jpeg" },
+  { name: "Karma King", balance: 10000000, players: [], logo: "4.jpeg" }
+];
+
+let selectedTeam = null;
+
+function renderTeams() {
+  const container = document.getElementById("teams");
+  container.innerHTML = "";
+
+  teams.forEach((team, index) => {
+    const div = document.createElement("div");
+    div.className = "team";
+
+    div.innerHTML = `
+      <img src="${team.logo}" class="team-logo" onclick="selectTeam(${index})">
+      <h3>${team.name}</h3>
+      <p>Balance: ₹${team.balance.toLocaleString()}</p>
+      <div class="players">
+        ${team.players.map(p => `<div>#${p.number} (₹${p.amount})</div>`).join("")}
+      </div>
+    `;
+
+    container.appendChild(div);
+  });
+}
+
+function selectTeam(index) {
+  selectedTeam = index;
+  alert("Selected: " + teams[index].name);
+}
+
+function buyPlayer() {
+  const number = document.getElementById("playerNumber").value;
+  const amount = Number(document.getElementById("bidAmount").value);
+
+  if (selectedTeam === null) {
+    alert("Select team by clicking logo!");
+    return;
+  }
+
+  if (!number) {
+    alert("Enter player number!");
+    return;
+  }
+
+  if (amount < BASE_PRICE) {
+    alert("Minimum price is ₹100000");
+    return;
+  }
+
+  if (amount % BID_STEP !== 0) {
+    alert("Bid must be in multiples of ₹100000");
+    return;
+  }
+
+  if (teams[selectedTeam].balance < amount) {
+    alert("Not enough balance!");
+    return;
+  }
+
+  teams[selectedTeam].balance -= amount;
+  teams[selectedTeam].players.push({ number, amount });
+
+  renderTeams();
+
+  document.getElementById("playerNumber").value = "";
+  document.getElementById("bidAmount").value = "";
+}
+
+renderTeams();
+</script></body>
+</html>
